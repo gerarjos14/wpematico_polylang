@@ -1,0 +1,65 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Project-Id-Version: WPeMatico Polylang\n"
+"POT-Creation-Date: 2020-04-01 20:36-0300\n"
+"PO-Revision-Date: 2020-04-01 20:43-0300\n"
+"Language-Team: NetMdP\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.1\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: wpematico_polylang.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;"
+"esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;"
+"esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Last-Translator: \n"
+"Language: es_ES\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: includes/campaign_edit.php:51
+msgid "Polylang Language"
+msgstr "Lenguaje Polylang"
+
+#: includes/campaign_edit.php:65
+msgid "Select language for Posts(types)."
+msgstr "Seleccionar lenguaje para los posts."
+
+#: includes/campaign_edit.php:67
+msgid "Available languages on Polylang"
+msgstr "Lenguajes disponibles en Polylang"
+
+#: includes/campaign_edit.php:82
+msgid ""
+"Something's going wrong. The PLL function of Polylang seems not to exist."
+msgstr "Algo va mal. La función PLL de Polylang parece no existir."
+
+#: includes/campaign_fetch.php:36
+#, php-format
+msgid "Polylang inserting post to %s language"
+msgstr "Post insertado en el lenguaje %s de Polylang"
+
+#: includes/campaign_fetch.php:51
+#, php-format
+msgid "Inserting %s language to term %s"
+msgstr "Insertando el lenguaje %s al term %s"
+
+#: includes/campaign_fetch.php:54
+msgid ""
+"Something's going wrong. The pll_set_post_language function of Polylang "
+"seems not to exist."
+msgstr ""
+"Algo va mal. La función pll_set_post_language() de Polylang parece no "
+"existir."
+
+#: includes/requirements.php:12
+msgid "WPeMatico and Polylang are required plugins."
+msgstr "WPeMatico y Polylang son plugins requeridos."
+
+#: includes/requirements.php:17
+msgid "WPeMatico should be on version 2.5 or above."
+msgstr "WPeMatico debe ser mayor o igual a la versión 2.5."

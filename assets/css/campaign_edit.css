@@ -1,0 +1,13 @@
+/* 
+    Style on campaign editing screen for WPeMatico Polylang
+    Author     : esteban
+*/
+#polylang-box h2.hndle {
+    background: #6cc179;
+}
+#polylang-box h2.hndle span{
+    color: #555;
+}
+#polylang-box h2.hndle .dashicons{
+    color: #ef4237;
+}
