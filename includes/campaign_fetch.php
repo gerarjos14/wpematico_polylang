@@ -18,7 +18,7 @@ class wpematico_polylangprocess {
 
     public static function init_fetching($campaign) {
 //		if ($campaign['campaign_language']) {
-        //add_action('wpematico_inserted_post', array(__CLASS__, 'process'), 999, 3);
+        add_action('wpematico_inserted_post', array(__CLASS__, 'process'), 999, 3);
 //		}
     }
 
