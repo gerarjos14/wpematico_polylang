@@ -31,73 +31,50 @@ class wpematico_polylangprocess {
 	 * 
 	 */
 	public static function insert_all_languages($dontallowinsert, $fetchclass, $args) {
+		//echo '<pre>'; print_r($fetchclass); echo '</pre>';
 		$default_language = (function_exists('pll_default_language')) ? pll_default_language() : 'en';
-		$campaign_language = (isset($campaign['campaign_language']) && !empty($campaign['campaign_language'])) ? $campaign['campaign_language'] : $default_language;
+		$campaign_language = (isset($fetchclass->campaign['campaign_language']) && !empty($fetchclass->campaign['campaign_language'])) ? $fetchclass->campaign['campaign_language'] : $default_language;
 
-			remove_filter('content_save_pre', 'wp_filter_post_kses');
+		//remove_filter('content_save_pre', 'wp_filter_post_kses');
 //			remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
-			
-			//obtener los lenguajes y quitar el de la campaña del array
-			//Insertar el post en cada lenguaje, obteniendo el post_id de cada uno 
-			//   Eso lo hace pll_save_post_translations ? 
-			//salvar las taxonomias en cada lenguaje
-			
-			// collect meta data from $args
-			$item_meta = $args['meta'];
+		
+		//obtener los lenguajes y quitar el de la campaña del array
+		//Insertar el post en cada lenguaje, obteniendo el post_id de cada uno 
+		//   Eso lo hace pll_save_post_translations ? 
+		//salvar las taxonomias en cada lenguaje
+		
+		//			$id = pll_get_post($post->ID, 'en');
+		$post_id = wp_insert_post($args);
+		pll_set_post_language($post_id, $campaign_language);
+		//pll_save_post_translations(['es' => $post_id]);
+		trigger_error('<b>' . sprintf(__('Polylang inserting post to %s language', 'polyglot'), PLL()->model->get_language($campaign_language)->name) . '</b>', E_USER_NOTICE);
 
-			// looking for translated version
-//			$en_id = pll_get_post($post->ID, 'en');
-			$post_id = wp_insert_post($args);
+		// If we have an id save new meta to the translated post
+		if(!empty($id)) {
+			//loopt_through_meta($item_meta, get_post($id));
+		}		
+		
 
-			// If the translated post is missing, set transient,
-			// duplicate the post and category and afterwards write
-			// the taxonomy entry for polylang
-			if (empty($en_id)) {
-				set_transient('saving_english', true);
-				if ($en_id = duplicate_post($post, $item_meta['title_english'])) {
-					pll_save_post_translations([
-						'de' => $post->ID,
-						'en' => $en_id
-					]);
-				}
-			// If the translated posts already exists deregister the hook
-			// to avoid infinite loop.
-			// But note the third parameter priority: It must be the same
-			// priority as used for registering the hook
-			} else {
-				remove_action('save_post', 'save_meta',1);
-				wp_update_post([
-					'ID' => $en_id,
-					'post_title' => $item_meta['title_english']
-				]);
-				add_action ( 'save_post', 'save_meta', 1, 3 );
-			}
+		//follow the standard rules in core class
+		if ($fetchclass->cfg['woutfilter'] && $fetchclass->campaign['campaign_woutfilter']) {
+			global $wpdb, $wp_locale, $current_blog;
+			$table_name = $wpdb->prefix . "posts";
+			$blog_id = @$current_blog->blog_id;
+			$fetchclass->current_item['content'] = $truecontent;
+			trigger_error(__('** Adding unfiltered content **', 'wpematico'), E_USER_NOTICE);
+			$wpdb->update($table_name, array('post_content' => $fetchclass->current_item['content'], 'post_content_filtered' => $fetchclass->current_item['content']), array('ID' => $post_id));
+		}
 
-			// If we have an id save new meta to the translated post
-			if(!empty($en_id)) {
-				loopt_through_meta($item_meta, get_post($en_id));
-			}		
-			
-
-			//follow the standard rules in core class
-			if ($fetchclass->cfg['woutfilter'] && $fetchclass->campaign['campaign_woutfilter']) {
-				global $wpdb, $wp_locale, $current_blog;
-				$table_name = $wpdb->prefix . "posts";
-				$blog_id = @$current_blog->blog_id;
-				$fetchclass->current_item['content'] = $truecontent;
-				trigger_error(__('** Adding unfiltered content **', 'wpematico'), E_USER_NOTICE);
-				$wpdb->update($table_name, array('post_content' => $fetchclass->current_item['content'], 'post_content_filtered' => $fetchclass->current_item['content']), array('ID' => $post_id));
-			}
-
-			$fetchclass->postProcessItem($post_id, $item);
+		//$fetchclass->postProcessItem($id, $item);
+		$fetchclass->postProcessItem($post_id, $args);
 
 
-			// If pingback/trackbacks
-			if ($fetchclass->campaign['campaign_allowpings']) {
-				trigger_error(__('Processing item pingbacks', 'wpematico'), E_USER_NOTICE);
-				require_once(ABSPATH . WPINC . '/comment.php');
-				pingback($fetchclass->current_item['content'], $post_id);
-			}
+		// If pingback/trackbacks
+		if ($fetchclass->campaign['campaign_allowpings']) {
+			trigger_error(__('Processing item pingbacks', 'wpematico'), E_USER_NOTICE);
+			require_once(ABSPATH . WPINC . '/comment.php');
+			pingback($fetchclass->current_item['content'], $post_id);
+		}
 
 		return false; // do not process the core insert post
 	}
