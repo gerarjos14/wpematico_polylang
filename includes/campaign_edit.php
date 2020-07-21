@@ -60,9 +60,11 @@ if(!class_exists('WPePLL_Campaign_Edit')) :
 			if(in_array('category',$taxonomy)) {
 				if(function_exists('pll_get_term_language') && isset($campaign_language)){
 					foreach ($terms as $key => $term) {
+						if(isset($term->taxonomy)) {
 							if($term->taxonomy == 'category' && pll_get_term_language($term->term_id) !== $campaign_language){
 								unset($terms[$key]);
 							}
+						}
 					}
 					$terms = array_values($terms);
 				}
