@@ -72,7 +72,8 @@ No yet.  Be the first in the support forums.
 
 == Changelog ==
 
-= 1.1.0 - 16 Jul 2020 =
+= 1.1.0 - 21 Jul 2020 =
+- Set language to post and terms.
 - Filter categories depending on the selected language.
 
 = 1.0.0 - 31 Mar 2020 =

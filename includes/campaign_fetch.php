@@ -31,7 +31,6 @@ class wpematico_polylangprocess {
 	 * 
 	 */
 	public static function insert_all_languages($dontallowinsert, $fetchclass, $args) {
-		//echo '<pre>'; print_r($fetchclass); echo '</pre>';
 		$default_language = (function_exists('pll_default_language')) ? pll_default_language() : 'en';
 		$campaign_language = (isset($fetchclass->campaign['campaign_language']) && !empty($fetchclass->campaign['campaign_language'])) ? $fetchclass->campaign['campaign_language'] : $default_language;
 
@@ -45,16 +44,28 @@ class wpematico_polylangprocess {
 		
 		//			$id = pll_get_post($post->ID, 'en');
 		$post_id = wp_insert_post($args);
-		pll_set_post_language($post_id, $campaign_language);
-		//pll_save_post_translations(['es' => $post_id]);
-		trigger_error('<b>' . sprintf(__('Polylang inserting post to %s language', 'polyglot'), PLL()->model->get_language($campaign_language)->name) . '</b>', E_USER_NOTICE);
+		if (function_exists('pll_set_post_language')) {
+			pll_set_post_language($post_id, $campaign_language);
+			//pll_save_post_translations(['es' => $post_id]);
+			trigger_error('<b>' . sprintf(__('Polylang inserting post to %s language', 'polyglot'), PLL()->model->get_language($campaign_language)->name) . '</b>', E_USER_NOTICE);
+
+			if (function_exists('pll_set_term_language')) {
+				$taxonomies = get_post_taxonomies($post_id);
+				$terms = wp_get_object_terms($post_id, $taxonomies);
+				foreach ($terms as $term) {
+					pll_set_term_language($term->term_id, $campaign_language);
+					trigger_error(sprintf(__('Inserting %s language to term %s', 'polyglot'), PLL()->model->get_language($campaign_language)->name, $term->slug), E_USER_NOTICE);
+				}
+			}
+		} else {
+			trigger_error(__('Something\'s going wrong. The pll_set_post_language function of Polylang seems not to exist.', 'wpematico_polylang'), E_USER_WARNING);
+		}
 
 		// If we have an id save new meta to the translated post
 		if(!empty($id)) {
 			//loopt_through_meta($item_meta, get_post($id));
 		}		
 		
-
 		//follow the standard rules in core class
 		if ($fetchclass->cfg['woutfilter'] && $fetchclass->campaign['campaign_woutfilter']) {
 			global $wpdb, $wp_locale, $current_blog;
@@ -65,9 +76,7 @@ class wpematico_polylangprocess {
 			$wpdb->update($table_name, array('post_content' => $fetchclass->current_item['content'], 'post_content_filtered' => $fetchclass->current_item['content']), array('ID' => $post_id));
 		}
 
-		//$fetchclass->postProcessItem($id, $item);
 		$fetchclass->postProcessItem($post_id, $args);
-
 
 		// If pingback/trackbacks
 		if ($fetchclass->campaign['campaign_allowpings']) {
