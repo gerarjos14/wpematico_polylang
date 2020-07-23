@@ -1,7 +1,7 @@
 <?php
 /*
   Plugin Name: WPeMatico Polylang
-  Version: 1.0
+  Version: 1.1.0
   Plugin URI: https://etruel.com/downloads/wpematico_polylang
   Description: WPeMatico auto publishing posts support for Polylang.
   Author: etruel
@@ -30,7 +30,7 @@
 if(!defined('ABSPATH')) {
 	die('-1');
 }
-define('WPEMATICO_POLYLANG_VERSION', '1.0');
+define('WPEMATICO_POLYLANG_VERSION', '1.1.0');
 define('WPEMATICO_POLYLANG_MIN_PHP_VERSION', '5.6');
 
 if(!class_exists('WPeMatico_polylang')) {

@@ -1,20 +1,20 @@
 === WPeMatico Polylang ===
-Contributors: etruel, khaztiel
+Contributors: etruel, khaztiel, cjsq24
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=B8V39NWK3NFQU
 Author URI: https://www.netmdp.com
 Plugin URL: https://etruel.com/downloads/wpematico_polylang
 Tags: wpematico,polylang,autoblog,autopost,auto translate, multilanguage,wpml,translation,translator
 Requires at Least: 4.9
-Tested Up To: 5.4
+Tested Up To: 5.5
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
 
-Gives support to WPeMatico for auto publishing posts for Polylang Multilanguage plugin.
+Gives support to WPeMatico for auto publishing posts with Polylang Multilanguage plugin.
 
 == Description ==
 
-IN BETA STAGE YET. TEST IN DEVELOPMENT SITES BEFORE USE.
+THIS VERSION SHOULD BE THE RELEASE CANDIDATE. TEST IN DEVELOPMENT SITES BEFORE USE.
 Polylang allows you to create a bilingual or multilingual WordPress site. 
 With [Polylang](https://wordpress.org/plugins/polylang/) You write posts, pages, etc.
 
@@ -73,8 +73,10 @@ No yet.  Be the first in the support forums.
 == Changelog ==
 
 = 1.1.0 - 21 Jul 2020 =
-- Set language to post and terms.
-- Filter categories depending on the selected language.
+- Added set the language of the inserted post and also its terms.
+- Added compatibility with WPeMatico Professional Addon.
+- Fixes the saving of messages in the language assigned to the campaign when it is not the default.
+- Corrects the deletion of categories when the selected language was not the default.
 
 = 1.0.0 - 31 Mar 2020 =
 - Initial plugin.

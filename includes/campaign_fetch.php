@@ -1,5 +1,4 @@
 <?php
-
 /**
  * It will be used to manage all feature on the campaign fetching.
  *  @package WPeMatico Polylang
@@ -34,15 +33,9 @@ class wpematico_polylangprocess {
 		$default_language = (function_exists('pll_default_language')) ? pll_default_language() : 'en';
 		$campaign_language = (isset($fetchclass->campaign['campaign_language']) && !empty($fetchclass->campaign['campaign_language'])) ? $fetchclass->campaign['campaign_language'] : $default_language;
 
-		//remove_filter('content_save_pre', 'wp_filter_post_kses');
+		remove_filter('content_save_pre', 'wp_filter_post_kses');
 //			remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
 		
-		//obtener los lenguajes y quitar el de la campaña del array
-		//Insertar el post en cada lenguaje, obteniendo el post_id de cada uno 
-		//   Eso lo hace pll_save_post_translations ? 
-		//salvar las taxonomias en cada lenguaje
-		
-		//			$id = pll_get_post($post->ID, 'en');
 		$post_id = wp_insert_post($args);
 		if (function_exists('pll_set_post_language')) {
 			pll_set_post_language($post_id, $campaign_language);
@@ -61,11 +54,6 @@ class wpematico_polylangprocess {
 			trigger_error(__('Something\'s going wrong. The pll_set_post_language function of Polylang seems not to exist.', 'wpematico_polylang'), E_USER_WARNING);
 		}
 
-		// If we have an id save new meta to the translated post
-		if(!empty($id)) {
-			//loopt_through_meta($item_meta, get_post($id));
-		}		
-		
 		//follow the standard rules in core class
 		if ($fetchclass->cfg['woutfilter'] && $fetchclass->campaign['campaign_woutfilter']) {
 			global $wpdb, $wp_locale, $current_blog;
