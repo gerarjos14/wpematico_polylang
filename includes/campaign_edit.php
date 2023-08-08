@@ -83,7 +83,11 @@ if(!class_exists('WPePLL_Campaign_Edit')) :
 			$default_language = (function_exists('pll_default_language')) ? pll_default_language() : 'en';
 			$campaign_language = (isset($campaign_data['campaign_language']) && !empty($campaign_data['campaign_language'])) ? $campaign_data['campaign_language'] : $default_language;
 			?>
-			<span class="left"><?php _e('Select language for Posts(types).', 'wpematico_polylang'); ?></span><span class="dashicons dashicons-warning help_tip" title="<?php echo $helptip['campaign_language']; ?>"></span>
+			<span class="left"><?php _e('Select language for Posts(types).', 'wpematico_polylang'); ?></span>
+			<?php if (isset($helptip['campaign_language'])) : ?>
+				<span class="dashicons dashicons-warning help_tip" title="<?php echo $helptip['campaign_language']; ?>"></span>
+			<?php endif; ?>
+
 			<div class="" style="background: #eef1ff none repeat scroll 0% 0%;border: 2px solid #cee1ef;padding: 0.5em;">
 				<b><?php _e('Available languages on Polylang', 'wpematico_polylang'); ?>:</b><br /><br />
 				<?php
@@ -108,9 +112,12 @@ if(!class_exists('WPePLL_Campaign_Edit')) :
 			<?php
 		}
 
-	public static function check_data($campaign_data = array(), $post_data) {
+	public static function check_data($campaign_data, $post_data) {
+		if(empty($campaign_data)){
+			$campaign_data = array();
+		}
 		$default_language = (function_exists('pll_default_language')) ? pll_default_language() : 'en';
-		$campaign_data['campaign_language']	= (!isset($post_data['campaign_language']) || empty($post_data['campaign_language'])) ? $default_language: $post_data['campaign_language'];
+		$campaign_data['campaign_language'] = (isset($post_data['campaign_language']) && !empty($post_data['campaign_language'])) ? $post_data['campaign_language'] : $default_language;
 		
 		return $campaign_data;
 	}
