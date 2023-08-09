@@ -73,7 +73,7 @@ No yet.  Be the first in the support forums.
 == Changelog ==
 
 = 1.1.0 - 09 Aug 2023 =
-- Fix deprecated at moment of make or edit a campaign
+- Fixed deprecated at moment of make or edit a campaign
 
 = 1.1.0 - 21 Jul 2020 =
 - Added set the language of the inserted post and also its terms.
